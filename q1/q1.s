@@ -57,7 +57,7 @@ insert_loop:
 
     blt a1, t0, go_left
     bgt a1, t0, go_right
-    j insert_done
+    j insert_create
 
 go_left:
     ld t1, 8(a0) #left child
