@@ -5,6 +5,8 @@
 .globl get
 .globl getAtMost
 
+.extern malloc
+
 #offsets
 #val = 0
 #left = 8
