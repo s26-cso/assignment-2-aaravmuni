@@ -44,9 +44,10 @@ make_node:
 #returns pointre in a0
 
 insert:
-    addi sp, sp, -16
+    addi sp, sp, -32
     sd ra, 8(sp)
     sd s0, 0(sp)
+    sd s1, 16(sp)
 
     mv s0, a0
 
@@ -67,10 +68,10 @@ go_left:
     j insert_loop
 
 insert_left_here:
-    mv t2, a0 #temporarily storing parent node
+    mv s1, a0 #temporarily storing parent node
     mv a0, a1
     call make_node #inserting with val a1(moved to a0)
-    sd a0, 8(t2) # a0 has pointer to newly inserted node
+    sd a0, 8(s1) # a0 has pointer to newly inserted node
     j insert_return 
 
 go_right:
@@ -81,10 +82,10 @@ go_right:
     j insert_loop
 
 insert_right_here:
-    mv t2, a0 #temporarily storing parent node
+    mv s1, a0 #temporarily storing parent node
     mv a0, a1
     call make_node #inserting with val a1(moved to a0)
-    sd a0, 16(t2) # a0 has pointer to newly inserted node
+    sd a0, 16(s1) # a0 has pointer to newly inserted node
     j insert_return
 
 insert_create:
@@ -96,7 +97,8 @@ insert_return:
     mv a0, s0
     ld ra, 8(sp)
     ld s0, 0(sp)
-    addi sp, sp, 16
+    ld s1, 16(sp)
+    addi sp, sp, 32
     ret
 
 #get node:
