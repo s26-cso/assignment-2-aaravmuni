@@ -5,25 +5,36 @@
 int main()
 {
     char operations[100];
-    int a,b;
+    int a, b;
 
-    while(scanf("%s %d %d", operations, &a, &b) == 3)
+    while (scanf("%s %d %d", operations, &a, &b) == 3)
     {
+        char libname[100] = "lib";
+        strcat(libname, operations);
+        strcat(libname, ".so");
 
-    char libname[100] = "lib";
-    strcat(libname, operations);
-    strcat(libname, ".so");
+        void *handle = dlopen(libname, RTLD_LAZY);
+        if (!handle) {
+            printf("dlopen error: %s\n", dlerror());
+            continue;
+        }
 
-    void *handle = dlopen(libname, RTLD_LAZY);
+        dlerror();
 
-    int(*func)(int,int);
-    func = dlsym(handle,operations);
+        int (*func)(int, int);
+        *(void **)(&func) = dlsym(handle, operations);
 
-    int result = func(a,b);
+        char *error = dlerror();
+        if (error != NULL) {
+            printf("dlsym error: %s\n", error);
+            dlclose(handle);
+            continue;
+        }
 
-    printf("%d\n", result);
+        int result = func(a, b);
+        printf("%d\n", result);
 
-    dlclose(handle);
+        dlclose(handle);
     }
 
     return 0;
