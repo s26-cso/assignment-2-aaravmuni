@@ -8,9 +8,7 @@ no_msg: .string "No\n"
 buf: .space 1048576 #1MB buffer, holds file contents
 
 .section .text
-.globl _start
-
-_start:
+main:
     #open(input.txt,O_RDONLY)
 
     li a7, 56 #syscall:openat
