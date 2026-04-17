@@ -7,7 +7,8 @@ int main()
     char operations[100];
     int a,b;
 
-    scanf("%s %d %d", operations, &a, &b);
+    while(scanf("%s %d %d", operations, &a, &b) == 3)
+    {
 
     char libname[100] = "lib";
     strcat(libname, operations);
@@ -23,6 +24,7 @@ int main()
     printf("%d\n", result);
 
     dlclose(handle);
+    }
 
     return 0;
 }

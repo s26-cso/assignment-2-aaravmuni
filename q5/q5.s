@@ -8,6 +8,8 @@ no_msg: .string "No\n"
 buf: .space 1048576 #1MB buffer, holds file contents
 
 .section .text
+.globl main
+
 main:
     #open(input.txt,O_RDONLY)
 
