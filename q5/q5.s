@@ -8,9 +8,9 @@ no_msg: .string "No\n"
 buf: .space 1048576 #1MB buffer, holds file contents
 
 .section .text
-.globl start
+.globl _start
 
-start:
+_start:
     #open(input.txt,O_RDONLY)
 
     li a7, 56 #syscall:openat
@@ -31,6 +31,8 @@ start:
     ecall
     #a0=number of bytes read
     blez a0,print_yes #empty string is a palindrome
+
+    mv t1,a0 #t1 has length
 
     #close(fd)
 
@@ -102,7 +104,7 @@ print_no:
     li a7,64 #syscall:write
     li a0,1 #stdout
     la a1,no_msg
-    li a2,3 #"No\n" = 4 bytes
+    li a2,3 #"No\n" = 3 bytes
 
     ecall
 
